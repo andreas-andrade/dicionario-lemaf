@@ -22,6 +22,8 @@ public class BuscaPalavras {
             System.out.println("Digite a palavra a ser pesquisada ou '0' para sair:");
             entrada = scanner.nextLine();
             if (isEntradaValida(entrada)) {
+//                Integer posicaoFinal = HttpUtil.obterPosicaoFinalDoDicionario();
+                HttpUtil.encontrarPosicaoPalavraNoDicionario(127582, entrada);
             }
         }
     }

@@ -48,7 +48,7 @@ class HttpUtil {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-        return result.toString();
+        return result.toString().replace("\"", "");
     }
 
     /**
@@ -70,20 +70,21 @@ class HttpUtil {
     static Integer obterPosicaoFinalDoDicionario() throws IOException, URISyntaxException {
         int posicaoFinal = 1;
         int posicaoInicial;
-        int meio = 0;
-        boolean posicaoFinalEncontrada = false;
+        int meio;
 
         while (isRequisicaoValida(posicaoFinal)) {
+            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
             posicaoFinal = 2 * posicaoFinal;
         }
 
         posicaoInicial = posicaoFinal / 2;
 
         // busca binária
-        while (!posicaoFinalEncontrada && posicaoFinal >= posicaoInicial) {
+        while (posicaoFinal >= posicaoInicial) {
             meio = (posicaoInicial + posicaoFinal) / 2;
 
             if (isRequisicaoValida(meio) && !isRequisicaoValida(meio + 1)) {
+                System.out.println("Gatinhos mortos na busca pela posição final: " + getGatinhosMortos());
                 return meio;
             }
             if (!isRequisicaoValida(meio)) {
@@ -91,6 +92,7 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
+            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
         }
 
         return null;
@@ -106,6 +108,7 @@ class HttpUtil {
      * @throws URISyntaxException
      */
     static Integer encontrarPosicaoPalavraNoDicionario(Integer posicaoFinal, String palavra) throws IOException, URISyntaxException {
+        setGatinhosMortos(0);
         int posicaoInicial = 0;
         int meio = 0;
         boolean palavraEncontrada = false;
@@ -120,12 +123,16 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
+            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
         }
 
         if (!palavraEncontrada) {
+            System.out.println("Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
+            System.out.println("Palavra não encontrada!");
             return -1;
         }
-
+        System.out.println("Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
+        System.out.println("Palavra encontrada na posição: " + meio);
         return meio;
     }
 
