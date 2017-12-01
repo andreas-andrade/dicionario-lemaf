@@ -6,12 +6,13 @@ Pré-requisitos:
 
 - Maven
 - JDK 1.8
+- Git
 
 ==========================================
 
 Passos para instalação e execução do programa:
 
-1. Depois de ter feito clone do repositório, navegue até a pasta do projeto e pelo terminal, execute o comando Maven:
+1. Clone o repositório em alguma pasta em seu computador. Navegue até a pasta do projeto e pelo terminal execute o comando Maven:
 > mvn clean compile assembly:single
 
 2. Será gerado um arquivo .jar na pasta "/target". Execute o arquivo no terminal com o comando: 
