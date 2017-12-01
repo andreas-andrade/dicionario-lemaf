@@ -1,5 +1,6 @@
 package com.lemaf.dicionario;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -52,7 +53,7 @@ class HttpUtil {
     }
 
     /**
-     * Valida se a requisição na posição informada é válida (retorna 200).
+     * Valida se a requisição na posição informada é válida (status 200).
      *
      * @param posicao Posição a ser verificada na API
      * @return Verdadeiro se a requisição foi bem sucedida.
@@ -60,93 +61,101 @@ class HttpUtil {
      * @throws URISyntaxException
      */
     static Boolean isRequisicaoValida(Integer posicao) throws IOException, URISyntaxException {
-        gatinhosMortos++;
         CloseableHttpResponse response = doGetApi(posicao);
         StatusLine statusLine = response.getStatusLine();
         return statusLine.getStatusCode() == 200;
     }
 
 
-    static Integer obterPosicaoFinalDoDicionario() throws IOException, URISyntaxException {
+    static Integer obterPosicaoFinalDoDicionario() throws Exception {
         int posicaoFinal = 1;
         int posicaoInicial;
         int meio;
 
         while (isRequisicaoValida(posicaoFinal)) {
-            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
             posicaoFinal = 2 * posicaoFinal;
         }
 
         posicaoInicial = posicaoFinal / 2;
 
-        // busca binária
+        // BUSCA BINÁRIA
         while (posicaoFinal >= posicaoInicial) {
             meio = (posicaoInicial + posicaoFinal) / 2;
 
+            // ENCONTROU O FIM
             if (isRequisicaoValida(meio) && !isRequisicaoValida(meio + 1)) {
-                System.out.println("Gatinhos mortos na busca pela posição final: " + getGatinhosMortos());
+                System.out.println(">>>>>>> Gatinhos mortos na busca pela posição final: " + getGatinhosMortos());
                 return meio;
             }
+            // BUSCA BINÁRIA
             if (!isRequisicaoValida(meio)) {
                 posicaoFinal = meio - 1;
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
         }
 
-        return null;
+        throw new ArrayIndexOutOfBoundsException(">>>>>>> Dicionário inválido");
     }
 
     /**
      * Método que encontra a posição da palavra informada no dicionáraio.
      *
-     * @param posicaoFinal O índice do último elemento do dicionário.
-     * @param palavra      A palavra a ser buscada.
+     * @param palavra A palavra a ser buscada.
      * @return O índice da palavra encontrada..........
      * @throws IOException
      * @throws URISyntaxException
      */
-    static Integer encontrarPosicaoPalavraNoDicionario(Integer posicaoFinal, String palavra) throws IOException, URISyntaxException {
-        setGatinhosMortos(0);
+    static Integer encontrarPosicaoPalavraNoDicionario(String palavra) throws Exception {
         int posicaoInicial = 0;
         int meio = 0;
         boolean palavraEncontrada = false;
+        int posicaoFinal;
+        System.out.println(">>>>>>> Buscando pela palavra: " + palavra);
+
+        setGatinhosMortos(0);
+
+        // OBTÉM O FINAL DO DICIONÁRIO
+        posicaoFinal = HttpUtil.obterPosicaoFinalDoDicionario();
 
         while (!palavraEncontrada && posicaoInicial <= posicaoFinal) {
             meio = (posicaoInicial + posicaoFinal) / 2;
             String palavraBuscada = obterPalavra(meio);
+
             if (palavra.equals(palavraBuscada)) {
                 palavraEncontrada = true;
-            } else if (palavraBuscada.compareTo(palavra) > 0) {
+            } else if (StringUtils.stripAccents(palavraBuscada).compareTo(StringUtils.stripAccents(palavra)) > 0) {
                 posicaoFinal = meio - 1;
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println("Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
         }
 
         if (!palavraEncontrada) {
-            System.out.println("Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
-            System.out.println("Palavra não encontrada!");
+            System.out.println(">>>>>>> Palavra não encontrada! <<<<<<<");
             return -1;
         }
-        System.out.println("Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
-        System.out.println("Palavra encontrada na posição: " + meio);
+        System.out.println();
+        System.out.println(">>>>>>>>> Palavra encontrada na posição: " + meio);
+        System.out.println();
+        System.out.println(">>>>>>>>> Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
         return meio;
     }
 
     /**
      * @return Retorna o atributo gatinhosMortos
      */
-    public static Integer getGatinhosMortos() {
+    private static Integer getGatinhosMortos() {
         return gatinhosMortos;
     }
 
     /**
      * @param gatinhosMortos Atribui o valor do parâmetro no atributo gatinhosMortos
      */
-    public static void setGatinhosMortos(Integer gatinhosMortos) {
+    private static void setGatinhosMortos(Integer gatinhosMortos) {
         HttpUtil.gatinhosMortos = gatinhosMortos;
     }
 }
