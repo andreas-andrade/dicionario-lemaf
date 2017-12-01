@@ -1,0 +1,3 @@
+# dicionario-lemaf
+
+Algoritmo teste.
