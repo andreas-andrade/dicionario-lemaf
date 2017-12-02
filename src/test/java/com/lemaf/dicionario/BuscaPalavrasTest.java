@@ -1,6 +1,5 @@
-package dicionario;
+package com.lemaf.dicionario;
 
-import com.lemaf.dicionario.BuscaPalavras;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
