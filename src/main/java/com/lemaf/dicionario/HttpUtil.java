@@ -17,6 +17,13 @@ class HttpUtil {
 
     private static Integer gatinhosMortos = 0;
 
+    /**
+     * Método que monta a requisição HTTP e devolve objeto com as informações da resposta.
+     * @param posicao Posição passada por parâmetro na requisição na API do Lemaf.
+     * @return Um objeto contendo a resposta da chamada a API.
+     * @throws URISyntaxException
+     * @throws IOException
+     */
     private static CloseableHttpResponse doGetApi(Integer posicao) throws URISyntaxException, IOException {
         gatinhosMortos++;
 
@@ -41,7 +48,7 @@ class HttpUtil {
      * @throws URISyntaxException
      * @throws IOException
      */
-    static String obterPalavra(Integer posicao) throws URISyntaxException, IOException {
+    private static String obterPalavra(Integer posicao) throws URISyntaxException, IOException {
         CloseableHttpResponse response = doGetApi(posicao);
         BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
         StringBuilder result = new StringBuilder();
@@ -60,14 +67,19 @@ class HttpUtil {
      * @throws IOException
      * @throws URISyntaxException
      */
-    static Boolean isRequisicaoValida(Integer posicao) throws IOException, URISyntaxException {
+    private static Boolean isRequisicaoValida(Integer posicao) throws IOException, URISyntaxException {
         CloseableHttpResponse response = doGetApi(posicao);
         StatusLine statusLine = response.getStatusLine();
         return statusLine.getStatusCode() == 200;
     }
 
 
-    static Integer obterPosicaoFinalDoDicionario() throws Exception {
+    /**
+     * Método que obtém a posição da última palavra do dicionário.
+     * @return O índice da última palavra.
+     * @throws Exception
+     */
+    private static Integer obterPosicaoFinalDoDicionario() throws Exception {
         int posicaoFinal = 1;
         int posicaoInicial;
         int meio;
@@ -104,7 +116,7 @@ class HttpUtil {
      * Método que encontra a posição da palavra informada no dicionáraio.
      *
      * @param palavra A palavra a ser buscada.
-     * @return O índice da palavra encontrada..........
+     * @return O índice da palavra encontrada.
      * @throws IOException
      * @throws URISyntaxException
      */
