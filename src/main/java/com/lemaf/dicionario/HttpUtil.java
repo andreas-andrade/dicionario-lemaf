@@ -73,7 +73,7 @@ class HttpUtil {
         int meio;
 
         while (isRequisicaoValida(posicaoFinal)) {
-            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + gatinhosMortos);
             posicaoFinal = 2 * posicaoFinal;
         }
 
@@ -85,7 +85,7 @@ class HttpUtil {
 
             // ENCONTROU O FIM
             if (isRequisicaoValida(meio) && !isRequisicaoValida(meio + 1)) {
-                System.out.println(">>>>>>> Gatinhos mortos na busca pela posição final: " + getGatinhosMortos());
+                System.out.println(">>>>>>> Gatinhos mortos na busca pela posição final: " + gatinhosMortos);
                 return meio;
             }
             // BUSCA BINÁRIA
@@ -94,7 +94,7 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + gatinhosMortos);
         }
 
         throw new ArrayIndexOutOfBoundsException(">>>>>>> Dicionário inválido");
@@ -115,7 +115,7 @@ class HttpUtil {
         int posicaoFinal;
         System.out.println(">>>>>>> Buscando pela palavra: " + palavra);
 
-        setGatinhosMortos(0);
+        gatinhosMortos = 0;
 
         // OBTÉM O FINAL DO DICIONÁRIO
         posicaoFinal = HttpUtil.obterPosicaoFinalDoDicionario();
@@ -131,7 +131,7 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + getGatinhosMortos());
+            System.out.println(">>>>>>>  Mais gatinhos mortos. Total até agora: " + gatinhosMortos);
         }
 
         if (!palavraEncontrada) {
@@ -141,21 +141,8 @@ class HttpUtil {
         System.out.println();
         System.out.println(">>>>>>>>> Palavra encontrada na posição: " + meio);
         System.out.println();
-        System.out.println(">>>>>>>>> Gatinhos mortos na busca pelo índice da palavra: " + getGatinhosMortos());
+        System.out.println(">>>>>>>>> Gatinhos mortos na busca pelo índice da palavra: " + gatinhosMortos);
         return meio;
     }
 
-    /**
-     * @return Retorna o atributo gatinhosMortos
-     */
-    private static Integer getGatinhosMortos() {
-        return gatinhosMortos;
-    }
-
-    /**
-     * @param gatinhosMortos Atribui o valor do parâmetro no atributo gatinhosMortos
-     */
-    private static void setGatinhosMortos(Integer gatinhosMortos) {
-        HttpUtil.gatinhosMortos = gatinhosMortos;
-    }
 }
