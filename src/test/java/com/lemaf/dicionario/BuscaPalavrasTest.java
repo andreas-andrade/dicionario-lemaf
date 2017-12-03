@@ -32,7 +32,7 @@ public class BuscaPalavrasTest {
     public void testarPalavraEncontrada() throws Exception {
         String[] args = {};
         // entrada
-        String entrada = "Pessoa";
+        String entrada = "Pessoalmente";
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(entrada.getBytes());
 
         System.setIn(byteArrayInputStream);

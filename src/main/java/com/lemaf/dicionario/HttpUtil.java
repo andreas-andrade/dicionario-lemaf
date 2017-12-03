@@ -17,7 +17,7 @@ class HttpUtil {
 
     private static Integer gatinhosMortos = 0;
     static final String PALAVRA_NAO_ENCONTRADA = ">>>>>>> Palavra não encontrada! <<<<<<<";
-    static final String QTDE_GATINHOS_MORTOS = ">>>>>>> Mais gatinhos mortos. Total até agora: " + gatinhosMortos;
+    static final String QTDE_GATINHOS_MORTOS = ">>>>>>> Mais gatinhos mortos. Total até agora: ";
 
     /**
      * Método que monta a requisição HTTP e devolve objeto com as informações da resposta.
@@ -87,7 +87,7 @@ class HttpUtil {
         int meio;
 
         while (isRequisicaoValida(posicaoFinal)) {
-            System.out.println(QTDE_GATINHOS_MORTOS);
+            System.out.println(QTDE_GATINHOS_MORTOS + gatinhosMortos);
             posicaoFinal = 2 * posicaoFinal;
         }
 
@@ -108,7 +108,7 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println(QTDE_GATINHOS_MORTOS);
+            System.out.println(QTDE_GATINHOS_MORTOS + gatinhosMortos);
         }
 
         throw new ArrayIndexOutOfBoundsException(">>>>>>> Dicionário inválido");
@@ -145,7 +145,7 @@ class HttpUtil {
             } else {
                 posicaoInicial = meio + 1;
             }
-            System.out.println(QTDE_GATINHOS_MORTOS);
+            System.out.println(QTDE_GATINHOS_MORTOS + gatinhosMortos);
         }
 
         if (!palavraEncontrada) {

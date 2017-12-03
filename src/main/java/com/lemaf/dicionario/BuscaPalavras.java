@@ -17,7 +17,12 @@ public class BuscaPalavras {
         while (!entrada.equals(":q")) {
             System.out.println();
             System.out.println("Digite a palavra a ser pesquisada ou ':q' para sair:");
-            entrada = scanner.nextLine();
+            try {
+                entrada = scanner.nextLine();
+            }
+            catch (Exception e) {
+                entrada = ":q";
+            }
             if (isEntradaValida(entrada)) {
                 HttpUtil.encontrarPosicaoPalavraNoDicionario(entrada);
             } else {
